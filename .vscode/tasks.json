@@ -4,6 +4,6 @@
     "version": "0.1.0",
     "command": "node",
     "isShellCommand": true,
-    "args": ["server.js"],
+    "args": ["src/server.js"],
     "showOutput": "always"
 }
