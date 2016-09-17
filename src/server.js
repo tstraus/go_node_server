@@ -19,7 +19,7 @@ var black = true
 var index = fs.readFileSync(__dirname + '/index.html')
 
 var app = http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/html'})
+    res.writeHead(200, { 'Content-Type': 'text/html' })
     res.end(index)
 })
 
@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
             io.emit('move', { black: black, x: data.x, y: data.y })
             black = !black
         }
-        
+
         console.log(board)
     })
 
