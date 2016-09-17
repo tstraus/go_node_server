@@ -14,6 +14,7 @@ function createArray(length) {
 }
 
 var board = createArray(19, 19)
+var black = true
 
 var index = fs.readFileSync(__dirname + '/index.html')
 
@@ -27,15 +28,33 @@ var io = require('socket.io').listen(app)
 io.on('connection', (socket) => {
     console.log(chalk.green('client connected'))
 
-    //socket.emit('welcome', { message: 'Welcome!', id: socket.id })
+    socket.emit('board', board, black)
 
-    socket.on('move', (data) => {
-        console.log(chalk.blue("color: ") + data.color)
+    socket.on('attemptMove', (data) => {
+        console.log('move attempted')
+
+        if (data.black) {
+            console.log(chalk.blue("color: black"))
+        }
+
+        else {
+            console.log(chalk.blue("color: white"))
+        }
+
         console.log(chalk.yellow("x: ") + data.x)
         console.log(chalk.yellow("y: ") + data.y)
 
-        if (!(board[data.y][data.x] === 'black') && !(board[data.y][data.x] === 'white')) {
-            board[data.y][data.x] = data.color
+        if (!(board[data.y][data.x] === 'b') && !(board[data.y][data.x] === 'w')) {
+            if (data.black) {
+                board[data.y][data.x] = 'b'
+            }
+
+            else {
+                board[data.y][data.x] = 'w'
+            }
+
+            io.emit('move', { black: black, x: data.x, y: data.y })
+            black = !black
         }
         
         console.log(board)
