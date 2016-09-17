@@ -15,6 +15,7 @@ function createArray(length) {
 
 var board = createArray(19, 19)
 var black = true
+var connections = 0
 
 var index = fs.readFileSync(__dirname + '/index.html')
 
@@ -27,6 +28,7 @@ var io = require('socket.io').listen(app)
 
 io.on('connection', (socket) => {
     console.log(chalk.green('client connected'))
+    connections++
 
     socket.emit('board', board, black)
 
@@ -62,6 +64,12 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log(chalk.red('client disconnected'))
+        connections--
+
+        if (connections === 0) {
+            board = createArray(19, 19)
+            console.log(chalk.magenta('board reset'))
+        }
     })
 })
 
