@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
 
         if (connections === 0) {
             board = createArray(19, 19)
+            black = true
             console.log(chalk.magenta('board reset'))
         }
     })
