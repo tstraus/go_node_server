@@ -1,3 +1,4 @@
+var os = require('os');
 var http = require('http')
 var fs = require('fs')
 var chalk = require('chalk')
@@ -23,6 +24,19 @@ var app = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/html' })
     res.end(index)
 })
+
+var interfaces = os.networkInterfaces();
+var addresses = [];
+for (var k in interfaces) {
+    for (var k2 in interfaces[k]) {
+        var address = interfaces[k][k2];
+        if (address.family === 'IPv4' && !address.internal) {
+            addresses.push(address.address);
+        }
+    }
+}
+
+console.log("Server IP: " + addresses)
 
 var io = require('socket.io').listen(app)
 
