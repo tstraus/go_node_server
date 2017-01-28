@@ -47,7 +47,6 @@ io.on('connection', (socket) => {
     socket.emit('board', board, black)
 
     socket.on('attemptMove', (data) => {
-
         if (data.black) {
             console.log(chalk.blue("color: black"))
         }
